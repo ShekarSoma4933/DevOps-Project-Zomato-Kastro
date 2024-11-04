@@ -8,7 +8,7 @@ pipeline {
         SCANNER_HOME=tool 'sonar-scanner'
     }
     stages {
-        stage ("clean workspace") {
+        stage ("Clean Workspace") {
             steps {
                 cleanWs()
             }
@@ -58,8 +58,8 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker') {
-                        sh "docker tag zomato kastrov/zomato:latest "
-                        sh "docker push kastrov/zomato:latest "
+                        sh "docker tag zomato shekarsoma493/zomato:latest "
+                        sh "docker push shekarsoma493/zomato:latest "
                     }
                 }
             }
@@ -68,16 +68,16 @@ pipeline {
             steps {
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
-                       sh 'docker-scout quickview kastrov/zomato:latest'
-                       sh 'docker-scout cves kastrov/zomato:latest'
-                       sh 'docker-scout recommendations kastrov/zomato:latest'
+                       sh 'docker-scout quickview shekarsoma493/zomato:latest'
+                       sh 'docker-scout cves shekarsoma493/zomato:latest'
+                       sh 'docker-scout recommendations shekarsoma493/zomato:latest'
                    }
                 }
             }
         }
         stage ("Deploy to Container") {
             steps {
-                sh 'docker run -d --name zomato -p 3000:3000 kastrov/zomato:latest'
+                sh 'docker run -d --name zomato -p 3000:3000 shekarsoma493/zomato:latest'
             }
         }
     }
